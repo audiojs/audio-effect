@@ -8,7 +8,7 @@ Canonical audio effect implementations.
 <sub>[Phaser](#phaser) · [Flanger](#flanger) · [Chorus](#chorus) · [Wah-wah](#wah-wah) · [Tremolo](#tremolo) · [Vibrato](#vibrato) · [Ring mod](#ring-mod) · [Pitch shifter](#pitch-shifter) · [Auto-wah](#auto-wah)</sub>
 
 **[Dynamics](#dynamics)**<br>
-<sub>[Compressor](#compressor) · [Limiter](#limiter) · [Noise gate](#noise-gate) · [Envelope follower](#envelope-follower) · [Transient shaper](#transient-shaper)</sub>
+<sub>[Compressor](#compressor) · [Limiter](#limiter) · [Noise gate](#noise-gate) · [Envelope follower](#envelope-follower) · [Transient shaper](#transient-shaper) · [Expander](#expander)</sub>
 
 **[Delay](#delay)**<br>
 <sub>[Delay](#delay-1) · [Multitap](#multitap) · [Ping-pong](#ping-pong) · [Reverb](#reverb)</sub>
@@ -39,7 +39,7 @@ import * as fx from 'audio-effect'
 
 // import by category
 import { phaser, flanger, chorus, wah, autoWah, pitchShifter } from 'audio-effect/modulation'
-import { compressor, limiter, gate, envelope }                  from 'audio-effect/dynamics'
+import { compressor, limiter, gate, envelope, expander }        from 'audio-effect/dynamics'
 import { delay, multitap, pingPong, reverb }                    from 'audio-effect/delay'
 import { distortion, bitcrusher }                               from 'audio-effect/distortion'
 import { stereoWidener, haas, panner }                          from 'audio-effect/spatial'
@@ -344,6 +344,33 @@ for (let buf of stream) transientShaper(buf, p)
 **Not for**: general dynamic range control
 
 ![Transient shaper](plot/transient-shaper.svg)
+
+
+### Expander
+
+Downward expansion below threshold — attenuates quiet signals, complementing compression.
+
+**`threshold`** dB (default −40) · **`ratio`** expansion ratio > 1 (default 2) · **`range`** maximum attenuation floor dB (default −60) · **`attack`** seconds (default 0.001) · **`release`** seconds (default 0.1) · **`fs`** sample rate
+
+```js
+import { expander } from 'audio-effect/dynamics'
+
+let p = { threshold: -40, ratio: 2, range: -60, attack: 0.001, release: 0.1, fs: 44100 }
+for (let buf of stream) expander(buf, p)
+```
+
+**Transfer function**: for each `dB < threshold`, `gainDB = max((ratio−1)×(dB−threshold), range)`
+
+| ratio | effect |
+|---|---|
+| 2 | gentle expansion, doubles apparent dynamic range |
+| 4 | aggressive, close to gate behavior |
+| ∞ | pure gate |
+
+**Use when**: subtle noise reduction, dynamic restoration, complementing compression<br>
+**Not for**: hard noise removal (use gate)
+
+![Expander](plot/expander.svg)
 
 
 ## Delay

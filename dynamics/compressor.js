@@ -1,55 +1,70 @@
 /**
  * Compressor — reduces dynamic range above threshold.
- * Feedforward design with envelope-based gain computation.
+ * dB-domain envelope with multi-channel peak detection.
  */
 
-let {abs, exp, pow, log10, max} = Math
+let { abs, exp, log, pow } = Math
+
+const LN10_20  = Math.log(10) / 20   // dB → linear gain factor
+const LOG10_20 = 20 / Math.log(10)   // linear → dB
 
 export default function compressor (data, params) {
-	let threshold = params.threshold ?? -20   // dB
-	let ratio = params.ratio ?? 4             // :1
-	let attack = params.attack ?? 0.003       // seconds
-	let release = params.release ?? 0.1       // seconds
-	let knee = params.knee ?? 0               // dB (soft knee width)
-	let makeupGain = params.makeupGain ?? 0   // dB
-	let fs = params.fs || 44100
+	let threshold  = params.threshold  ?? -24    // dB
+	let ratio      = params.ratio      ?? 12     // :1
+	let attack     = params.attack     ?? 0.003  // seconds
+	let release    = params.release    ?? 0.25   // seconds
+	let knee       = params.knee       ?? 30     // dB
+	let makeupGain = params.makeupGain ?? 0      // dB
+	let fs         = params.fs         || 44100
 
-	let aA = exp(-1 / (attack * fs))
-	let aR = exp(-1 / (release * fs))
-	let makeup = pow(10, makeupGain / 20)
+	let aA = attack  > 0 ? exp(-1 / (attack  * fs)) : 0
+	let aR = release > 0 ? exp(-1 / (release * fs)) : 0
+	let makeup   = pow(10, makeupGain / 20)
+	let slope    = 1 - 1 / ratio
+	let halfKnee = knee / 2
+	let kneeInv  = knee > 0 ? 1 / (4 * knee) : 0
 
-	let env = params._env ?? 0
+	// Accept mono Float32Array or Float32Array[] for multi-channel
+	let channels = ArrayBuffer.isView(data) ? [data] : data
+	let nch = channels.length
+	let n   = channels[0].length
 
-	for (let i = 0, l = data.length; i < l; i++) {
-		let x = data[i]
-		let xAbs = abs(x)
+	let env = params._env ?? -120  // dB floor — avoids attack burst on first block
+	let gainReduction = 0
 
-		// Envelope follower
-		if (xAbs > env) env = aA * env + (1 - aA) * xAbs
-		else env = aR * env + (1 - aR) * xAbs
-
-		// Level in dB
-		let dB = 20 * log10(max(env, 1e-30))
-
-		// Gain computation
-		let gainDB = 0
-		if (knee > 0) {
-			let lo = threshold - knee / 2
-			let hi = threshold + knee / 2
-			if (dB > lo && dB < hi) {
-				let x2 = dB - lo
-				gainDB = (1 / ratio - 1) * x2 * x2 / (2 * knee)
-			} else if (dB >= hi) {
-				gainDB = (1 / ratio - 1) * (dB - threshold)
-			}
-		} else if (dB > threshold) {
-			gainDB = (1 / ratio - 1) * (dB - threshold)
+	for (let i = 0; i < n; i++) {
+		// Peak detection across channels (linear)
+		let peak = 0
+		for (let c = 0; c < nch; c++) {
+			let v = abs(channels[c][i])
+			if (v > peak) peak = v
 		}
 
-		data[i] = x * pow(10, gainDB / 20) * makeup
+		// Linear → dB
+		let dB = peak > 0 ? LOG10_20 * log(peak) : -120
+
+		// Envelope follower in dB domain
+		let coeff = dB > env ? aA : aR
+		env = coeff * env + (1 - coeff) * dB
+
+		// Gain reduction
+		let overshoot = env - threshold
+		gainReduction = 0
+		if (overshoot >= halfKnee) {
+			gainReduction = overshoot * slope
+		} else if (overshoot > -halfKnee) {
+			let x = overshoot + halfKnee
+			gainReduction = x * x * kneeInv * slope
+		}
+
+		let gainLin = exp(-gainReduction * LN10_20) * makeup
+
+		for (let c = 0; c < nch; c++)
+			channels[c][i] *= gainLin
 	}
 
-	params._env = env
+	params._env       = env
+	params._reduction = -gainReduction  // ≤ 0 dB
 
 	return data
 }
