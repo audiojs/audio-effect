@@ -1,0 +1,41 @@
+{
+  "name": "audio-effect",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Audio effects – modulation, dynamics, delay, spatial, utility, distortion",
+  "exports": {
+    ".": "./index.js",
+    "./modulation": "./modulation/index.js",
+    "./modulation/*": "./modulation/*",
+    "./dynamics": "./dynamics/index.js",
+    "./dynamics/*": "./dynamics/*",
+    "./delay": "./delay/index.js",
+    "./delay/*": "./delay/*",
+    "./spatial": "./spatial/index.js",
+    "./spatial/*": "./spatial/*",
+    "./utility": "./utility/index.js",
+    "./utility/*": "./utility/*",
+    "./distortion": "./distortion/index.js",
+    "./distortion/*": "./distortion/*"
+  },
+  "scripts": {
+    "test": "node test.js",
+    "plot": "node plot/generate.js"
+  },
+  "files": [
+    "modulation",
+    "dynamics",
+    "delay",
+    "spatial",
+    "utility",
+    "distortion",
+    "index.js",
+    "plot"
+  ],
+  "keywords": ["audio", "effect", "dsp", "phaser", "flanger", "chorus", "reverb", "compressor", "distortion", "bitcrusher"],
+  "license": "ISC",
+  "repository": "audiojs/audio-effect",
+  "devDependencies": {
+    "digital-filter": "file:../digital-filter"
+  }
+}
