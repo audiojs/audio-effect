@@ -155,6 +155,41 @@ test('transientShaper — produces output without NaN', () => {
 	ok(data.some(x => Math.abs(x) > 0.001), 'has output')
 })
 
+test('expander — attenuates signal below threshold', () => {
+	let data = new Float64Array(2048)
+	// Quiet signal far below threshold
+	for (let i = 0; i < 2048; i++) data[i] = Math.sin(2 * Math.PI * 440 * i / 44100) * 0.001
+	let origPeak = 0.001
+	fx.expander(data, { threshold: -20, ratio: 4, release: 0.001, fs: 44100 })
+	let peak = 0
+	for (let i = 500; i < 2048; i++) if (Math.abs(data[i]) > peak) peak = Math.abs(data[i])
+	ok(peak < origPeak, `expander attenuates quiet signal: ${peak.toFixed(6)} < ${origPeak}`)
+	ok(data.every(isFinite), 'no NaN/Inf')
+})
+
+test('expander — leaves loud signal above threshold untouched', () => {
+	let data = sine(440, 2048)
+	for (let i = 0; i < 2048; i++) data[i] *= 0.8
+	let orig = Float64Array.from(data)
+	fx.expander(data, { threshold: -40, ratio: 2, fs: 44100 })
+	let maxDiff = 0
+	for (let i = 200; i < 2048; i++) { let d = Math.abs(data[i] - orig[i]); if (d > maxDiff) maxDiff = d }
+	ok(maxDiff < 0.01, `above threshold untouched: maxDiff=${maxDiff.toFixed(6)}`)
+})
+
+test('expander — higher ratio = more attenuation', () => {
+	let makeQuiet = () => {
+		let d = new Float64Array(1024)
+		for (let i = 0; i < 1024; i++) d[i] = Math.sin(2 * Math.PI * 440 * i / 44100) * 0.005
+		return d
+	}
+	let d2 = makeQuiet(), d4 = makeQuiet()
+	fx.expander(d2, { threshold: -20, ratio: 2, release: 0.001, fs: 44100 })
+	fx.expander(d4, { threshold: -20, ratio: 4, release: 0.001, fs: 44100 })
+	let peak = d => { let p = 0; for (let x of d) if (Math.abs(x) > p) p = Math.abs(x); return p }
+	ok(peak(d4) < peak(d2), `ratio=4 more attenuation than ratio=2`)
+})
+
 // ═══════════════════════════════════════════════════════════════════════════
 // Delay
 // ═══════════════════════════════════════════════════════════════════════════
