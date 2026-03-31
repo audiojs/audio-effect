@@ -91,7 +91,7 @@ for (let buf of stream) phaser(buf, p)
 **Use when**: electric guitar, synth pads, vintage phase effects<br>
 **Not for**: spatial positioning (use stereoWidener or haas)
 
-![Phaser](plot/phaser.svg)
+<!-- ![Phaser](plot/phaser.svg) -->
 
 
 ### Flanger
@@ -110,7 +110,7 @@ for (let buf of stream) flanger(buf, p)
 **Use when**: jet sweeps, metallic modulation, guitar/bass<br>
 **Not for**: subtle pitch modulation (use vibrato)
 
-![Flanger](plot/flanger.svg)
+<!-- ![Flanger](plot/flanger.svg) -->
 
 
 ### Chorus
@@ -129,7 +129,7 @@ for (let buf of stream) chorus(buf, p)
 **Use when**: thickening strings, vocals, synth pads<br>
 **Not for**: transparent processing (adds modulation artifacts)
 
-![Chorus](plot/chorus.svg)
+<!-- ![Chorus](plot/chorus.svg) -->
 
 
 ### Wah-wah
@@ -148,7 +148,7 @@ for (let buf of stream) wah(buf, p)
 **Use when**: classic wah sound, filter sweeps<br>
 **Not for**: signal-driven wah (use autoWah)
 
-![Wah-wah](plot/wah.svg)
+<!-- ![Wah-wah](plot/wah.svg) -->
 
 
 ### Tremolo
@@ -167,7 +167,7 @@ for (let buf of stream) tremolo(buf, p)
 **Use when**: vintage amp tremolo, rhythmic pulsing, guitar effects<br>
 **Not for**: pitch modulation (use vibrato)
 
-![Tremolo](plot/tremolo.svg)
+<!-- ![Tremolo](plot/tremolo.svg) -->
 
 
 ### Vibrato
@@ -186,7 +186,7 @@ for (let buf of stream) vibrato(buf, p)
 **Use when**: vocal vibrato, string wobble, instrument simulation<br>
 **Not for**: amplitude variation (use tremolo)
 
-![Vibrato](plot/vibrato.svg)
+<!-- ![Vibrato](plot/vibrato.svg) -->
 
 
 ### Ring mod
@@ -205,7 +205,7 @@ for (let buf of stream) ringMod(buf, p)
 **Use when**: metallic/robotic tones, experimental textures, AM synthesis<br>
 **Not for**: clean frequency shifting
 
-![Ring mod](plot/ring-mod.svg)
+<!-- ![Ring mod](plot/ring-mod.svg) -->
 
 
 ### Pitch shifter
@@ -224,7 +224,7 @@ for (let buf of stream) pitchShifter(buf, p)
 **Use when**: harmonizer, octave up/down, pitch correction<br>
 **Not for**: high-quality transposition (use phase vocoder for that)
 
-![Pitch shifter](plot/pitch-shifter.svg)
+<!-- ![Pitch shifter](plot/pitch-shifter.svg) -->
 
 
 ### Auto-wah
@@ -243,7 +243,7 @@ for (let buf of stream) autoWah(buf, p)
 **Use when**: funk guitar, touch-sensitive filter sweeps, envelope filter<br>
 **Not for**: LFO-driven wah (use wah with `mode: 'auto'`)
 
-![Auto-wah](plot/auto-wah.svg)
+<!-- ![Auto-wah](plot/auto-wah.svg) -->
 
 
 ## Dynamics
@@ -266,7 +266,7 @@ for (let buf of stream) compressor(buf, p)
 **Use when**: taming peaks, bus glue, leveling vocals<br>
 **Not for**: hard limiting (use limiter)
 
-![Compressor](plot/compressor.svg)
+<!-- ![Compressor](plot/compressor.svg) -->
 
 
 ### Limiter
@@ -285,7 +285,7 @@ for (let buf of stream) limiter(buf, p)
 **Use when**: preventing clipping, master bus ceiling, broadcast compliance<br>
 **Not for**: transparent dynamic control (use compressor)
 
-![Limiter](plot/limiter.svg)
+<!-- ![Limiter](plot/limiter.svg) -->
 
 
 ### Noise gate
@@ -304,7 +304,7 @@ for (let buf of stream) gate(buf, p)
 **Use when**: removing mic bleed, drum gate, noise floor cleanup<br>
 **Not for**: compression or amplitude control
 
-![Noise gate](plot/gate.svg)
+<!-- ![Noise gate](plot/gate.svg) -->
 
 
 ### Envelope follower
@@ -324,7 +324,7 @@ for (let buf of stream) envelope(buf, p)
 **Use when**: sidechain source, envelope-controlled parameters, VCA control<br>
 **Not for**: gain reduction (use compressor)
 
-![Envelope follower](plot/envelope.svg)
+<!-- ![Envelope follower](plot/envelope.svg) -->
 
 
 ### Transient shaper
@@ -343,7 +343,7 @@ for (let buf of stream) transientShaper(buf, p)
 **Use when**: drum punch enhancement, click reduction, transient design<br>
 **Not for**: general dynamic range control
 
-![Transient shaper](plot/transient-shaper.svg)
+<!-- ![Transient shaper](plot/transient-shaper.svg) -->
 
 
 ### Expander
@@ -370,7 +370,7 @@ for (let buf of stream) expander(buf, p)
 **Use when**: subtle noise reduction, dynamic restoration, complementing compression<br>
 **Not for**: hard noise removal (use gate)
 
-![Expander](plot/expander.svg)
+<!-- ![Expander](plot/expander.svg) -->
 
 
 ## Delay
@@ -393,7 +393,7 @@ for (let buf of stream) delay(buf, p)
 **Use when**: slap-back echo, rhythmic delays, tape delay emulation<br>
 **Not for**: diffuse reverberation (use reverb)
 
-![Delay](plot/delay.svg)
+<!-- ![Delay](plot/delay.svg) -->
 
 
 ### Multitap
@@ -415,7 +415,7 @@ for (let buf of stream) multitap(buf, p)
 **Use when**: complex rhythmic echo patterns, vintage tape echo with multiple heads<br>
 **Not for**: simple single echo (use delay)
 
-![Multitap](plot/multitap.svg)
+<!-- ![Multitap](plot/multitap.svg) -->
 
 
 ### Ping-pong
@@ -434,7 +434,7 @@ for (let [L, R] of stereoStream) pingPong(L, R, p)
 **Use when**: stereo width from delays, spatial depth, rhythmic bounce effects<br>
 **Not for**: mono output
 
-![Ping-pong](plot/ping-pong.svg)
+<!-- ![Ping-pong](plot/ping-pong.svg) -->
 
 
 ### Reverb
@@ -454,7 +454,7 @@ for (let buf of stream) reverb(buf, p)
 **Use when**: room ambience, plate reverb character, spatial depth<br>
 **Not for**: convolution reverb accuracy (use an IR-based approach for that)
 
-![Reverb](plot/reverb.svg)
+<!-- ![Reverb](plot/reverb.svg) -->
 
 
 ## Distortion
@@ -494,7 +494,7 @@ distortion(buf, { drive: 0.7, type: 'foldback' })
 **Use when**: guitar overdrive, tube saturation, lo-fi crunch, harmonic enrichment<br>
 **Not for**: transparent limiting (use limiter)
 
-![Distortion types](plot/distortion.svg)
+<!-- ![Distortion types](plot/distortion.svg) -->
 
 
 ### Bitcrusher
@@ -517,7 +517,7 @@ bitcrusher(buf, { bits: 4, rate: 1 })
 **Use when**: lo-fi aesthetics, game audio, retro console sound, stutter effects<br>
 **Not for**: smooth saturation (use distortion)
 
-![Bitcrusher](plot/bitcrusher.svg)
+<!-- ![Bitcrusher](plot/bitcrusher.svg) -->
 
 
 ## Spatial
@@ -540,7 +540,7 @@ for (let [L, R] of stereoStream) stereoWidener(L, R, p)
 **Use when**: widening narrow mixes, mono-compatibility check (width=0), mastering<br>
 **Not for**: positioning a single source (use panner)
 
-![Stereo widener](plot/stereo-widener.svg)
+<!-- ![Stereo widener](plot/stereo-widener.svg) -->
 
 
 ### Haas effect
@@ -559,7 +559,7 @@ for (let [L, R] of stereoStream) haas(L, R, p)
 **Use when**: mono-to-stereo widening, spatial placement, drum room simulation<br>
 **Not for**: large delays (use ping-pong delay instead)
 
-![Haas effect](plot/haas.svg)
+<!-- ![Haas effect](plot/haas.svg) -->
 
 
 ### Panner
@@ -578,7 +578,7 @@ for (let [L, R] of stereoStream) panner(L, R, p)
 **Use when**: placing sources in the stereo field<br>
 **Not for**: 3D spatial audio
 
-![Panner](plot/panner.svg)
+<!-- ![Panner](plot/panner.svg) -->
 
 
 ## Utility
@@ -597,7 +597,7 @@ import { gain } from 'audio-effect/utility'
 for (let buf of stream) gain(buf, { dB: -6 })
 ```
 
-![Gain](plot/gain.svg)
+<!-- ![Gain](plot/gain.svg) -->
 
 
 ### Mixer
@@ -635,7 +635,7 @@ for (let buf of stream) slewLimiter(buf, p)
 **Use when**: click removal, smoothing control signals, limiting slew on CVs<br>
 **Not for**: dynamic range control
 
-![Slew limiter](plot/slew-limiter.svg)
+<!-- ![Slew limiter](plot/slew-limiter.svg) -->
 
 
 ### Noise shaping
@@ -653,4 +653,4 @@ for (let buf of stream) noiseShaping(buf, { bits: 16 })
 **Use when**: dithering before bit-depth reduction, quantization to lower bit depths<br>
 **Not for**: audio compression (unrelated to lossy codecs)
 
-![Noise shaping](plot/noise-shaping.svg)
+<!-- ![Noise shaping](plot/noise-shaping.svg) -->
