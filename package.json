@@ -1,6 +1,6 @@
 {
   "name": "audio-effect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "sideEffects": false,
   "description": "Audio effects – modulation, dynamics, delay, spatial, utility, distortion",
@@ -33,7 +33,18 @@
     "index.js",
     "plot"
   ],
-  "keywords": ["audio", "effect", "dsp", "phaser", "flanger", "chorus", "reverb", "compressor", "distortion", "bitcrusher"],
+  "keywords": [
+    "audio",
+    "effect",
+    "dsp",
+    "phaser",
+    "flanger",
+    "chorus",
+    "reverb",
+    "compressor",
+    "distortion",
+    "bitcrusher"
+  ],
   "license": "ISC",
   "repository": "audiojs/audio-effect",
   "devDependencies": {
